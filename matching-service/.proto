@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package matching;
+
+service MatchingService {
+  rpc FindMatches (FindMatchesRequest) returns (FindMatchesResponse);
+}
+
+message FindMatchesRequest {
+  string activity = 1;
+  string location = 2;
+}
+
+message Match {
+  string id = 1;
+  string name = 2;
+  string activity = 3;
+}
+
+message FindMatchesResponse {
+  repeated Match matches = 1;
+}
