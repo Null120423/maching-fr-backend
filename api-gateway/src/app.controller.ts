@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Controller, Get, Query } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { OrderService } from './order/order.service';
 import { UserService } from './user/user.service';
-
+@ApiTags('gateway')
 @Controller()
 export class AppController {
   constructor(
