@@ -4,7 +4,7 @@ package auth;
 
 // AuthService provides authentication-related operations
 service AuthService {
-  rpc Login (LoginRequest) returns (LoginReply);
+  rpc SignIn (LoginRequest) returns (LoginReply);
   rpc SignUp (SignUpRequest) returns (SignUpReply);
   rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenReply);
 }

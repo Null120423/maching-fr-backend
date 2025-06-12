@@ -1,5 +1,6 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
+import { lastValueFrom, Observable } from 'rxjs';
 import {
   LoginReplyDTO,
   LoginRequestDTO,
@@ -10,9 +11,9 @@ import {
 } from './dto';
 
 interface AuthServiceImpl {
-  SignIn(data: LoginRequestDTO): Promise<LoginReplyDTO>;
-  SignUp(data: SignUpRequestDTO): Promise<SignUpReplyDTO>;
-  RefreshToken(data: RefreshTokenRequestDTO): Promise<RefreshTokenReplyDTO>;
+  SignIn(data: LoginRequestDTO): Observable<LoginReplyDTO>;
+  SignUp(data: SignUpRequestDTO): Observable<SignUpReplyDTO>;
+  RefreshToken(data: RefreshTokenRequestDTO): Observable<RefreshTokenReplyDTO>;
 }
 
 @Injectable()
@@ -23,17 +24,21 @@ export class AuthService implements OnModuleInit {
 
   onModuleInit() {
     this.authService = this.client.getService<AuthServiceImpl>('AuthService');
+    console.log(
+      '[Mapped GRPC] AuthService methods:',
+      Object.keys(this.authService),
+    );
   }
 
   // Method for user login
   async signIn(data: LoginRequestDTO): Promise<LoginReplyDTO> {
-    const response = await this.authService.SignIn(data);
+    const response = lastValueFrom(this.authService.SignIn(data));
     return response;
   }
 
   // Method for user sign-up
   async signUp(data: SignUpRequestDTO): Promise<SignUpReplyDTO> {
-    const response = await this.authService.SignUp(data);
+    const response = lastValueFrom(this.authService.SignUp(data));
     return response;
   }
 
@@ -41,7 +46,7 @@ export class AuthService implements OnModuleInit {
   async refreshToken(
     data: RefreshTokenRequestDTO,
   ): Promise<RefreshTokenReplyDTO> {
-    const response = await this.authService.RefreshToken(data);
+    const response = lastValueFrom(this.authService.RefreshToken(data));
     return response;
   }
 }

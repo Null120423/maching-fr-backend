@@ -10,7 +10,7 @@ import {
   SignUpRequestDTO,
 } from './dto';
 
-@ApiTags('Auth') // Group in Swagger UI
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -40,7 +40,7 @@ export class AuthController {
     return await this.authService.signIn(loginDto);
   }
 
-  @Post('signup')
+  @Post('sign-up')
   @ApiOperation({ summary: 'Sign up user and create an account' })
   @ApiBody({ type: SignUpRequestDTO })
   @ApiResponse({
